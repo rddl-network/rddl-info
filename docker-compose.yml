@@ -1,0 +1,18 @@
+version: '2.1'
+
+services:
+  influxdb:
+    image: influxdb:2.6.1
+    volumes:
+      - ./influxdb2:/var/lib/influxdb2
+    ports:
+      - "8086:8086"
+  grafana:
+    image: grafana/grafana-oss
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/lib:/var/lib/grafana
+      - ./grafana/etc:/etc/grafana
+      - ./grafana/log:/var/log/grafana
+    user: 'root'

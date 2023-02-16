@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "rddl-info"
+version = "0.1.0"
+description = ""
+authors = ["Jürgen Eckel <juergen@riddleandcode.com>"]
+readme = "README.md"
+packages = [{include = "rddl_info"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+planetmint-driver = "^0.15.0"
+fastapi = "^0.89.1"
+websocket = "^0.2.1"
+websockets = "^10.4"
+urllib3 = "^1.26.14"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
