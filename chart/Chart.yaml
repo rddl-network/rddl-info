@@ -1,0 +1,15 @@
+apiVersion: v2
+name: rddl-info
+version: 0.0.1
+
+maintainers:
+- email: julian@rddl.io
+  name: Julian Strobl
+
+dependencies:
+- name: influxdb
+  version: "5.4.15"
+  repository: "https://charts.bitnami.com/bitnami"
+- name: grafana
+  version: "8.2.26"
+  repository: "https://charts.bitnami.com/bitnami"
