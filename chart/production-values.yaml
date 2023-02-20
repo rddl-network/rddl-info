@@ -1,0 +1,26 @@
+influxdb:
+  auth:
+    admin:
+      password: '#Set in ArgoCD'
+      token: '#Set in ArgoCD'
+    user:
+      username: rddl
+      password: '#Set in ArgoCD'
+      org: rddl_network
+      bucket: validator_notarization
+    readUser:
+      username: read
+      password: '#Set in ArgoCD'
+    writeUser:
+      username: write
+      password: '#Set in ArgoCD'
+  fullnameOverride: influxdb
+  persistence:
+    storageClass: r3c-prod-client-nfs
+
+grafana:
+  admin:
+    password: '#Set in ArgoCD'
+  fullnameOverride: grafana
+  persistence:
+    storageClass: r3c-prod-client-nfs
