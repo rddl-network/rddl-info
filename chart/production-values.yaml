@@ -22,5 +22,12 @@ grafana:
   admin:
     password: '#Set in ArgoCD'
   fullnameOverride: grafana
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    enabled: true
+    ingressClassName: haproxy
+    hostname: info.rddl.io
+    tls: true
   persistence:
     storageClass: r3c-prod-client-nfs
