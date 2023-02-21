@@ -22,6 +22,11 @@ grafana:
   admin:
     password: '#Set in ArgoCD'
   fullnameOverride: grafana
+  grafana:
+    initContainers:
+      - name: init-influxdb
+        image: busybox:1.28
+        command: ['sh', '-c', "until nc -vz influxdb 8086; do echo waiting for influxdb; sleep 2; done"]
   ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
