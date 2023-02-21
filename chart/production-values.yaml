@@ -21,6 +21,21 @@ influxdb:
 grafana:
   admin:
     password: '#Set in ArgoCD'
+  config:
+    useGrafanaIniFile: true
+    grafanaIniConfigMap: grafana-ini
+  extraDeploy:
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: grafana-ini
+      data:
+        grafana.ini: |
+          [auth.anonymous]
+          enabled = true
+          org_name = RDDL
+          org_role = Viewer
+          hide_version = true
   fullnameOverride: grafana
   grafana:
     initContainers:
