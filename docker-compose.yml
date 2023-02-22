@@ -8,6 +8,8 @@ services:
     ports:
       - "8086:8086"
   grafana:
+    depends_on:
+      - influxdb
     image: grafana/grafana-oss
     ports:
       - "3000:3000"
@@ -16,3 +18,18 @@ services:
       - ./grafana/etc:/etc/grafana
       - ./grafana/log:/var/log/grafana
     user: 'root'
+  rddl_info:
+    depends_on:
+      - influxdb
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/app
+      - ./data:/usr/src/app/data
+    environment:
+      - INFLUXDB_TOKEN="SP1uc-ZXBhULXOZco5OFb7k8Gy_RdvIlU09USt8dB5llpwHuZc42D6vpmjximz85xDNUpkHTXe-if23AyL8FjQ=="
+      - INFLUXDB_ORG="RDDL Network"
+      - INFLUXDB_BUCKET="b0c82ebece524afe"
+      - INFLUXDB_HOST_URL="http://influxdb:8086"
+    entrypoint: /bin/sh

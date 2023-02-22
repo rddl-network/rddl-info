@@ -1,0 +1,3 @@
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/.local/bin
+*/2 * * * *   root	(cd /usr/src/app && poetry shell && python rddl_info/c/root/.cache/pypoetry/virtualenvs/rddl-info-VA82Wl8V-py3.10rawl.py --influxdb 1) | logger -t rddl-info
