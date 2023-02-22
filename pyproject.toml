@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rddl-info"
-version = "0.2.1"
+version = "0.2.2"
 description = ""
 authors = ["Jürgen Eckel <juergen@riddleandcode.com>"]
 readme = "README.md"
