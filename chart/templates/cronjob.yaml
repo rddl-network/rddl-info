@@ -1,0 +1,61 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "rddl-info.fullname" . }}
+  labels:
+    {{- include "rddl-info.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.schedule }}"
+  concurrencyPolicy: {{ .Values.concurrencyPolicy }}
+  suspend: {{ .Values.suspend }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          containers:
+            - name: {{ .Chart.Name }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              command:
+              - /bin/bash
+              - -c
+              - cd /usr/src/app/ && python rddl_info/crawl.py --influxdb 1
+              env:
+                {{- range $name, $value := .Values.env }}
+                - name: {{ $name }}
+                  value: {{ $value }}
+                {{- end }}
+              volumeMounts:
+                - name: storage-volume
+                  mountPath: {{ .Values.persistence.mountPath }}
+          restartPolicy: {{ .Values.restartPolicy }}
+          terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          volumes:
+            - name: storage-volume
+            {{- if .Values.persistence.enabled }}
+              persistentVolumeClaim:
+                claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "rddl-info.fullname" . }}{{- end }}
+            {{- else }}
+              emptyDir:
+              {{- if .Values.emptyDir.sizeLimit }}
+                sizeLimit: {{ .Values.emptyDir.sizeLimit }}
+              {{- else }}
+                {}
+              {{- end -}}
+            {{- end -}}
