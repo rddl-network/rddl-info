@@ -26,6 +26,8 @@ RUN /etc/init.d/rsyslog start
 RUN /etc/init.d/cron start
 
 WORKDIR /usr/src/app
-RUN poetry install --with dev
+RUN poetry config virtualenvs.create false
+RUN poetry install --no-interaction
+RUN poetry install --no-dev
 
 
