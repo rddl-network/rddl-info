@@ -8,7 +8,7 @@ RUN apt-get update \
     && pip install -U pip \
     && pip install poetry \
     && apt-get autoremove \
-    && apt-get cleanorg_role = Viewer
+    && apt-get clean
 RUN apt-get install -y rsyslog
 RUN echo "cron.*      /var/log/cron.log" >> /etc/syslog.conf
 
