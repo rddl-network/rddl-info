@@ -42,6 +42,9 @@ grafana:
       - name: init-influxdb
         image: busybox:1.28
         command: ['sh', '-c', "until nc -vz influxdb 8086; do echo waiting for influxdb; sleep 2; done"]
+      - name: init-prometheus
+        image: busybox:1.28
+        command: ['sh', '-c', "until nc -vz prometheus-server 80; do echo waiting for prometheus-server; sleep 2; done"]
   ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -51,3 +54,19 @@ grafana:
     tls: true
   persistence:
     storageClass: r3c-prod-client-nfs
+
+prometheus:
+  alertmanager:
+    fullnameOverride: alertmanager
+    persistence:
+      storageClass: r3c-prod-client-nfs
+  server:
+    fullnameOverride: prometheus-server
+    persistentVolume:
+      storageClass: r3c-prod-client-nfs
+  kube-state-metrics:
+    enabled: false
+  prometheus-node-exporter:
+    enabled: false
+  prometheus-pushgateway:
+    enabled: false
