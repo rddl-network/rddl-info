@@ -7,6 +7,9 @@ def write_status(block: int):
 
 
 def read_status() -> int:
-    with open(last_block_filename, "r") as reader:
-        block = reader.readline()
-        return int(block)
+    try:
+        with open(last_block_filename, "r") as reader:
+            block = reader.readline()
+            return int(block)
+    except FileNotFoundError:
+        return 0
