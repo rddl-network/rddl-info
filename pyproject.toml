@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "rddl-info"
+version = "0.2.0"
+description = ""
+authors = ["Jürgen Eckel <juergen@riddleandcode.com>"]
+readme = "README.md"
+packages = [{include = "rddl_info"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+planetmint-driver = "^0.15.0"
+fastapi = "^0.89.1"
+websocket = "^0.2.1"
+websockets = "^10.4"
+urllib3 = "^1.26.14"
+rich = "^13.3.1"
+typer = "^0.7.0"
+shellingham = "^1.5.0.post1"
+python-decouple = "^3.7"
+influxdb-client = {extras = ["ciso"], version = "^1.36.0"}
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

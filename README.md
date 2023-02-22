@@ -1,2 +1,3 @@
-# rddl-info
-A webservice to aggregate data and informaiton from the RDDL network.
+# RDDL information
+
+A webservice and tools to aggregate data and information from the RDDL network.
