@@ -1,0 +1,94 @@
+---
+image:
+  tag: 0.2.2
+persistence:
+  storageClass: r3c-prod-client-nfs
+schedule: "*/2 * * * *"
+
+influxdb:
+  auth:
+    admin:
+      password: '#Set in ArgoCD'
+      token: '#Set in ArgoCD'
+    user:
+      username: rddl
+      password: '#Set in ArgoCD'
+      org: rddl_network
+      bucket: validator_notarization
+    readUser:
+      username: read
+      password: '#Set in ArgoCD'
+    writeUser:
+      username: write
+      password: '#Set in ArgoCD'
+  fullnameOverride: influxdb
+  persistence:
+    storageClass: r3c-prod-client-nfs
+
+grafana:
+  admin:
+    password: '#Set in ArgoCD'
+  config:
+    useGrafanaIniFile: true
+    grafanaIniConfigMap: grafana-ini
+  extraDeploy:
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: grafana-ini
+      data:
+        grafana.ini: |
+          [auth.anonymous]
+          enabled = true
+          org_name = RDDL
+          org_role = Viewer
+          hide_version = true
+  fullnameOverride: grafana
+  grafana:
+    initContainers:
+      - name: init-influxdb
+        image: busybox:1.28
+        command: ['sh', '-c', "until nc -vz influxdb 8086; do echo waiting for influxdb; sleep 2; done"]
+      - name: init-prometheus
+        image: busybox:1.28
+        command: ['sh', '-c', "until nc -vz prometheus-server 80; do echo waiting for prometheus-server; sleep 2; done"]
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    enabled: true
+    ingressClassName: haproxy
+    hostname: info.rddl.io
+    tls: true
+  persistence:
+    storageClass: r3c-prod-client-nfs
+
+prometheus:
+  alertmanager:
+    fullnameOverride: alertmanager
+    persistence:
+      storageClass: r3c-prod-client-nfs
+  server:
+    fullnameOverride: prometheus-server
+    persistentVolume:
+      storageClass: r3c-prod-client-nfs
+  serverFiles:
+    prometheus.yml:
+      scrape_configs:
+        - job_name: 'rddl-network'
+          scrape_interval: 5s
+          metrics_path: /rddl-network
+          static_configs:
+            - targets:
+              - node1-rddl-testnet.twilightparadox.com:26660
+              - node3-rddl-testnet.twilightparadox.com:26660
+              - node4-rddl-testnet.twilightparadox.com:26660
+              - node8-rddl-testnet.twilightparadox.com:26660
+              - node9-rddl-testnet.twilightparadox.com:26660
+              labels:
+                group: 'rddl'
+  kube-state-metrics:
+    enabled: false
+  prometheus-node-exporter:
+    enabled: false
+  prometheus-pushgateway:
+    enabled: false
