@@ -99,6 +99,16 @@ prometheus:
               annotations:
                 description: '{{ $labels.instance }} has more than 10 unconfirmed transactions for more than 5 minutes.'
                 summary: '{{ $labels.instance }} has unconfirmed transactions'
+        - name: System
+          rules:
+            - alert: Sytem Down
+              expr: up == 0
+              for: 3m
+              labels:
+                severity: page
+              annotations:
+                description: '{{ $labels.instance }} System is down for more than 3 minutes.'
+                summary: '{{ $labels.instance }} System is down'
     prometheus.yml:
       scrape_configs:
         - job_name: 'rddl-network'
