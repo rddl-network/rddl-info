@@ -64,6 +64,21 @@ grafana:
 
 prometheus:
   alertmanager:
+    config:
+      receivers:
+        - name: mail-receiver
+          email_configs:
+            - to: it@riddleandcode.com
+              from: bot@riddleandcode.com
+              smarthost: smtp.gmail.com:587
+              auth_username: bot@riddleandcode.com
+              auth_identity: bot@riddleandcode.com
+              auth_password: '#Set in ArgoCD'
+      route:
+        group_wait: 10s
+        group_interval: 5m
+        repeat_interval: 3h
+        receiver: mail-receiver
     fullnameOverride: alertmanager
     persistence:
       storageClass: r3c-prod-client-nfs
