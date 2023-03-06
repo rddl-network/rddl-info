@@ -83,6 +83,11 @@ prometheus:
     persistence:
       storageClass: r3c-prod-client-nfs
   server:
+    ingress:
+      enabled: true
+      ingressClassName: haproxy-int
+      hosts:
+        - prometheus.rddl.int
     fullnameOverride: prometheus-server
     persistentVolume:
       storageClass: r3c-prod-client-nfs
