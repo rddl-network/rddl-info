@@ -117,8 +117,10 @@ prometheus:
           static_configs:
             - targets:
               - node1-rddl-testnet.twilightparadox.com:26660
+              - node2-rddl-testnet.twilightparadox.com:26660
               - node3-rddl-testnet.twilightparadox.com:26660
               - node4-rddl-testnet.twilightparadox.com:26660
+              - node6-rddl-testnet.twilightparadox.com:26660
               - node8-rddl-testnet.twilightparadox.com:26660
               - node9-rddl-testnet.twilightparadox.com:26660
               labels:

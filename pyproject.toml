@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "rddl_info"}]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 planetmint-driver = "^0.15.0"
 fastapi = "^0.89.1"
 websocket = "^0.2.1"
