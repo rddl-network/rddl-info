@@ -22,18 +22,21 @@ app = typer.Typer()
 current_node_id = 0
 rddl_node_list = json.loads(RDDL_NODES)
 
+
 def get_next_node_id() -> int:
-    global current_node_id 
-    current_node_id = current_node_id +1
+    global current_node_id
+    current_node_id = current_node_id + 1
     if current_node_id >= len(rddl_node_list):
         current_node_id = 0
     return current_node_id
 
-def get_node_uri( node_id:int = current_node_id) -> str:
+
+def get_node_uri(node_id: int = current_node_id) -> str:
     print(f"SWITCHING to node: {rddl_node_list[current_node_id]}")
     return rddl_node_list[current_node_id]
 
-def download_obj(url:str):
+
+def download_obj(url: str):
     try:
         http = urllib3.PoolManager()
         consumption = http.request("GET", url)
@@ -45,7 +48,8 @@ def download_obj(url:str):
         print(f"Exception {e}")
     return None
 
-def write_storage_entry( tx:dict, obj:dict, storage):
+
+def write_storage_entry(tx: dict, obj: dict, storage):
     try:
         data = [
             tx["inputs"][0]["owners_before"][0],
@@ -66,7 +70,8 @@ def write_storage_entry( tx:dict, obj:dict, storage):
     except Exception as e:
         print(f"exception writing to the DB: {e}")
 
-def get_create_tx(plntmnt:Planetmint, tx_id:str, blk_nr:int) -> str:
+
+def get_create_tx(plntmnt: Planetmint, tx_id: str, blk_nr: int) -> str:
     tx = plntmnt.transactions.retrieve(tx_id)
     if tx["operation"] == "CREATE":
         print(f"BLK {blk_nr} : {tx['inputs'][0]['owners_before']} : asset : {get_asset(tx)[0]['data']}")
@@ -74,22 +79,25 @@ def get_create_tx(plntmnt:Planetmint, tx_id:str, blk_nr:int) -> str:
     else:
         return None
 
-def get_cid_str(tx:dict) -> str:
-        obj = get_asset(tx)[0]["data"]
-        if not obj:
-            return None
-        cid = obj.replace('"', "")
-        print(f"CID : { cid } ")
-        return cid
 
-def get_cid_url(cid:str) -> str:
-        cided_data_url = get_cid_data(cid)
-        url = None
-        if cided_data_url == None:
-            url = get_default_download(cid)
-        else:
-            url = cided_data_url["url"]
-        return url
+def get_cid_str(tx: dict) -> str:
+    obj = get_asset(tx)[0]["data"]
+    if not obj:
+        return None
+    cid = obj.replace('"', "")
+    print(f"CID : { cid } ")
+    return cid
+
+
+def get_cid_url(cid: str) -> str:
+    cided_data_url = get_cid_data(cid)
+    url = None
+    if cided_data_url == None:
+        url = get_default_download(cid)
+    else:
+        url = cided_data_url["url"]
+    return url
+
 
 @app.command("synchronize")
 def synchronize_storage(
@@ -120,11 +128,11 @@ def synchronize_storage(
             print(f"EXCEPTION in retrieving a Block: {e}")
             del plntmnt
             plntmnt = Planetmint(get_node_uri(node_id=get_next_node_id()))
-            
+
         print(f'BLK {blk_nr} : {len(blk_content["transaction_ids"])}')
         for tx_id in blk_content["transaction_ids"]:
-            tx=None
-            while( tx == None ):
+            tx = None
+            while tx == None:
                 try:
                     tx = get_create_tx(plntmnt, tx_id, blk_nr)
                     break
@@ -146,7 +154,7 @@ def synchronize_storage(
             try:
                 write_storage_entry(tx, obj, storage)
             except Exception as e:
-                print( f"storage exception: {e}")
+                print(f"storage exception: {e}")
         write_status(blk_nr)
 
 
