@@ -1,0 +1,15 @@
+scrape_configs:
+- job_name: 'rddl-network'
+  scrape_interval: 5s
+  metrics_path: /rddl-network
+  static_configs:
+    - targets: ['node1-rddl-testnet.twilightparadox.com:26660',
+      'node2-rddl-testnet.twilightparadox.com:26660',
+      'node3-rddl-testnet.twilightparadox.com:26660',
+      'node4-rddl-testnet.twilightparadox.com:26660',
+      'node6-rddl-testnet.twilightparadox.com:26660',
+      'node7-rddl-testnet.twilightparadox.com:26660',
+      'node8-rddl-testnet.twilightparadox.com:26660',
+      'node9-rddl-testnet.twilightparadox.com:26660']
+      labels:
+        group: 'rddl'
