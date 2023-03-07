@@ -1,5 +1,6 @@
 import typer
 import urllib3
+import json
 
 from ipld import unmarshal
 from planetmint_driver import Planetmint
@@ -13,19 +14,90 @@ from rddl_info.config import INFLUXDB_TOKEN
 from rddl_info.config import INFLUXDB_ORG
 from rddl_info.config import INFLUXDB_BUCKET
 from rddl_info.config import INFLUXDB_HOST_URL
+from rddl_info.config import RDDL_NODES
 
 
 app = typer.Typer()
 
+current_node_id = 0
+rddl_node_list = json.loads(RDDL_NODES)
+
+def get_next_node_id() -> int:
+    global current_node_id 
+    current_node_id = current_node_id +1
+    if current_node_id >= len(rddl_node_list):
+        current_node_id = 0
+    return current_node_id
+
+def get_node_uri( node_id:int = current_node_id) -> str:
+    print(f"SWITCHING to node: {rddl_node_list[current_node_id]}")
+    return rddl_node_list[current_node_id]
+
+def download_obj(url:str):
+    try:
+        http = urllib3.PoolManager()
+        consumption = http.request("GET", url)
+        if consumption.status == 200:
+            obj = unmarshal(consumption.data)
+            print(obj)
+            return obj
+    except Exception as e:
+        print(f"Exception {e}")
+    return None
+
+def write_storage_entry( tx:dict, obj:dict, storage):
+    try:
+        data = [
+            tx["inputs"][0]["owners_before"][0],
+            obj["StatusSNS"]["ENERGY"]["ApparentPower"],
+            obj["StatusSNS"]["ENERGY"]["Current"],
+            obj["StatusSNS"]["ENERGY"]["Factor"],
+            obj["StatusSNS"]["ENERGY"]["Power"],
+            obj["StatusSNS"]["ENERGY"]["ReactivePower"],
+            obj["StatusSNS"]["ENERGY"]["Today"],
+            obj["StatusSNS"]["ENERGY"]["Total"],
+            obj["StatusSNS"]["Time"].replace("T", "t") + "+01:00",
+            obj["StatusSNS"]["ENERGY"]["Voltage"],
+            obj["StatusSNS"]["ENERGY"]["Yesterday"],
+        ]
+        storage.write(data)
+    except KeyError as e:
+        print("keyerror - not part of the CSV")
+    except Exception as e:
+        print(f"exception writing to the DB: {e}")
+
+def get_create_tx(plntmnt:Planetmint, tx_id:str, blk_nr:int) -> str:
+    tx = plntmnt.transactions.retrieve(tx_id)
+    if tx["operation"] == "CREATE":
+        print(f"BLK {blk_nr} : {tx['inputs'][0]['owners_before']} : asset : {get_asset(tx)[0]['data']}")
+        return tx
+    else:
+        return None
+
+def get_cid_str(tx:dict) -> str:
+        obj = get_asset(tx)[0]["data"]
+        if not obj:
+            return None
+        cid = obj.replace('"', "")
+        print(f"CID : { cid } ")
+        return cid
+
+def get_cid_url(cid:str) -> str:
+        cided_data_url = get_cid_data(cid)
+        url = None
+        if cided_data_url == None:
+            url = get_default_download(cid)
+        else:
+            url = cided_data_url["url"]
+        return url
 
 @app.command("synchronize")
 def synchronize_storage(
     # from_block: int = typer.Argument(..., help="The block number the synchronization starts at."),
-    rddl_validator_id: int = typer.Argument(..., help="The id of the RDDL validator node to connect to."),
+    # rddl_validator_id: int = typer.Argument(..., help="The id of the RDDL validator node to connect to."),
     influxdb: bool = typer.Option(False, "--influxdb/--no-influxdb"),
 ):
-    plntmnt_uri = "http://node" + str(rddl_validator_id) + "-rddl-testnet.twilightparadox.com:9984"
-    plntmnt = Planetmint(plntmnt_uri)
+    plntmnt = Planetmint(get_node_uri())
     last_block_current = plntmnt.blocks.retrieve(block_height="latest")
 
     range_from = read_status() + 1
@@ -42,55 +114,39 @@ def synchronize_storage(
 
     for blk_nr in range(range_from, range_to):
         print(f"Block : {blk_nr}")
-        blk_content = plntmnt.blocks.retrieve(block_height=str(blk_nr))
-        # print( f"BLK {blk_nr} : {blk_content}")
+        try:
+            blk_content = plntmnt.blocks.retrieve(block_height=str(blk_nr))
+        except Exception as e:
+            print(f"EXCEPTION in retrieving a Block: {e}")
+            del plntmnt
+            plntmnt = Planetmint(get_node_uri(node_id=get_next_node_id()))
+            
         print(f'BLK {blk_nr} : {len(blk_content["transaction_ids"])}')
-        for tx in blk_content["transaction_ids"]:
-            tx_old = tx
-            tx = plntmnt.transactions.retrieve(tx)
-            if tx["operation"] == "CREATE":
-                print(f"BLK {blk_nr} : {tx['inputs'][0]['owners_before']} : asset : {get_asset(tx)[0]['data']}")
-                # print( tx )
-                obj = get_asset(tx)[0]["data"]
-                if not obj:
-                    continue
-                cid = obj.replace('"', "")
-                print(f"CID : { cid } ")
-                cided_data_url = get_cid_data(cid)
-                url = None
-                if cided_data_url == None:
-                    url = get_default_download(cid)
-                else:
-                    url = cided_data_url["url"]
-                if url:
-                    try:
-                        http = urllib3.PoolManager()
-                        consumption = http.request("GET", url)
-                        if consumption.status == 200:
-                            obj = unmarshal(consumption.data)
-
-                            print(obj)
-                            try:
-                                data = [
-                                    tx["inputs"][0]["owners_before"][0],
-                                    obj["StatusSNS"]["ENERGY"]["ApparentPower"],
-                                    obj["StatusSNS"]["ENERGY"]["Current"],
-                                    obj["StatusSNS"]["ENERGY"]["Factor"],
-                                    obj["StatusSNS"]["ENERGY"]["Power"],
-                                    obj["StatusSNS"]["ENERGY"]["ReactivePower"],
-                                    obj["StatusSNS"]["ENERGY"]["Today"],
-                                    obj["StatusSNS"]["ENERGY"]["Total"],
-                                    obj["StatusSNS"]["Time"].replace("T", "t") + "+01:00",
-                                    obj["StatusSNS"]["ENERGY"]["Voltage"],
-                                    obj["StatusSNS"]["ENERGY"]["Yesterday"],
-                                ]
-                                storage.write(data)
-                            except KeyError as e:
-                                print("keyerror - not part of the CSV")
-                            except Exception as e:
-                                print(f"exception writing to the DB: {e}")
-                    except Exception as e:
-                        print(f"Exception {e}")
+        for tx_id in blk_content["transaction_ids"]:
+            tx=None
+            while( tx == None ):
+                try:
+                    tx = get_create_tx(plntmnt, tx_id, blk_nr)
+                    break
+                except Exception as e:
+                    print(f"EXCEPTION in retrieving a TX: {e}")
+                    del plntmnt
+                    plntmnt = Planetmint(get_node_uri(node_id=get_next_node_id()))
+            if not tx:
+                continue
+            cid = get_cid_str(tx)
+            if not cid:
+                continue
+            url = get_cid_url(cid)
+            if not url:
+                continue
+            obj = download_obj(url)
+            if not obj:
+                continue
+            try:
+                write_storage_entry(tx, obj, storage)
+            except Exception as e:
+                print( f"storage exception: {e}")
         write_status(blk_nr)
 
 
