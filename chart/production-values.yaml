@@ -3,6 +3,13 @@ image:
   tag: 0.2.2
 persistence:
   storageClass: r3c-prod-client-nfs
+resources:
+  requests:
+    cpu: "250m"
+    memory: "1Gi"
+  limits:
+    cpu: "500m"
+    memory: "2Gi"
 schedule: "*/2 * * * *"
 
 influxdb:
@@ -121,7 +128,9 @@ prometheus:
               - node3-rddl-testnet.twilightparadox.com:26660
               - node4-rddl-testnet.twilightparadox.com:26660
               - node6-rddl-testnet.twilightparadox.com:26660
+              - node7-rddl-testnet.twilightparadox.com:26660
               - node8-rddl-testnet.twilightparadox.com:26660
+              - node9-rddl-testnet.twilightparadox.com:26660
               labels:
                 group: 'rddl'
   kube-state-metrics:

@@ -29,6 +29,8 @@ spec:
                 - name: {{ $name }}
                   value: {{ $value }}
                 {{- end }}
+              resources:
+                {{- toYaml .Values.resources | nindent 16 }}
               volumeMounts:
                 - name: storage-volume
                   mountPath: {{ .Values.persistence.mountPath }}
