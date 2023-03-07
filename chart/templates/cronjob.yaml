@@ -23,7 +23,7 @@ spec:
               command:
               - /bin/bash
               - -c
-              - cd /usr/src/app/ && python rddl_info/crawl.py --influxdb 1
+              - cd /usr/src/app/ && python rddl_info/crawl.py --influxdb
               env:
                 {{- range $name, $value := .Values.env }}
                 - name: {{ $name }}
