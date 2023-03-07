@@ -123,6 +123,7 @@ prometheus:
               - node6-rddl-testnet.twilightparadox.com:26660
               - node7-rddl-testnet.twilightparadox.com:26660
               - node8-rddl-testnet.twilightparadox.com:26660
+              - node9-rddl-testnet.twilightparadox.com:26660
               labels:
                 group: 'rddl'
   kube-state-metrics:
