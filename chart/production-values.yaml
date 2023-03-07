@@ -79,6 +79,14 @@ prometheus:
         group_interval: 5m
         repeat_interval: 24h
         receiver: mail-receiver
+    ingress:
+      enabled: true
+      className: haproxy-int
+      hosts:
+        - host: alertmanager.rddl.int
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
     fullnameOverride: alertmanager
     persistence:
       storageClass: r3c-prod-client-nfs
