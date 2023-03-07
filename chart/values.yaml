@@ -22,6 +22,8 @@ restartPolicy: OnFailure
 
 terminationGracePeriodSeconds: 0
 
+resources: {}
+
 nodeSelector: {}
 
 tolerations: []
