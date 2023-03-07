@@ -1,6 +1,6 @@
 ---
 image:
-  tag: 0.2.2
+  tag: 0.3.0
 persistence:
   storageClass: r3c-prod-client-nfs
 resources:
