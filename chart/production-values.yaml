@@ -132,7 +132,7 @@ prometheus:
         - name: Node Connections
           rules:
             - alert: Node Connections
-              expr: tendermint_p2p_peers <= 5
+              expr: tendermint_p2p_peers < 5
               for: 1m
               labels:
                 severity: page
