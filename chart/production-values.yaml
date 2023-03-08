@@ -132,13 +132,13 @@ prometheus:
         - name: Node Connections
           rules:
             - alert: Node Connections
-              expr: tendermint_p2p_peers <= 5
+              expr: tendermint_p2p_peers < 5
               for: 1m
               labels:
                 severity: page
               annotations:
                 description: '{{ $labels.instance }} has less than five validator peer connections.'
-                summary: '{{ $labels.instance }} has less connections' 
+                summary: '{{ $labels.instance }} has less connections'
     prometheus.yml:
       scrape_configs:
         - job_name: 'rddl-network'
