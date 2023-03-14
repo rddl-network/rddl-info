@@ -76,6 +76,7 @@ prometheus:
         - name: mail-receiver
           email_configs:
             - to: it@riddleandcode.com
+              send_resolved: true
               from: bot@riddleandcode.com
               smarthost: smtp.gmail.com:587
               auth_username: bot@riddleandcode.com
