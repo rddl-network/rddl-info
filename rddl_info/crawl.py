@@ -2,7 +2,6 @@ import typer
 import urllib3
 import json
 
-from ipld import unmarshal
 from planetmint_driver import Planetmint
 
 from rddl_info.rddl.utils import get_asset, get_default_download, get_cid_data
@@ -17,10 +16,17 @@ from rddl_info.config import INFLUXDB_HOST_URL
 from rddl_info.config import RDDL_NODES
 
 
+ENCODING = "utf-8"
+
 app = typer.Typer()
 
 current_node_id = 0
 rddl_node_list = json.loads(RDDL_NODES)
+
+
+def unmarshal(data: bytes):
+    # unmarshal to dict
+    return json.loads(data.decode(ENCODING))
 
 
 def get_next_node_id() -> int:
