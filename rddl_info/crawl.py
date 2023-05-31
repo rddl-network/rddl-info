@@ -2,6 +2,7 @@ import typer
 import urllib3
 import json
 
+from ipld import unmarshal
 from planetmint_driver import Planetmint
 
 from rddl_info.rddl.utils import get_asset, get_default_download, get_cid_data
@@ -24,7 +25,7 @@ current_node_id = 0
 rddl_node_list = json.loads(RDDL_NODES)
 
 
-def unmarshal(data: bytes):
+def unmarshal_new(data: bytes):
     # unmarshal to dict
     return json.loads(data.decode(ENCODING))
 
@@ -47,9 +48,13 @@ def download_obj(url: str):
         http = urllib3.PoolManager()
         consumption = http.request("GET", url)
         if consumption.status == 200:
-            obj = unmarshal(consumption.data)
+            obj = unmarshal_new(consumption.data)
             print(obj)
             return obj
+    except UnicodeDecodeError:  # Exception 'utf-8' codec can't decode byte 0xa1 in position 0: invalid start byte
+        obj = unmarshal(consumption.data)
+        print(obj)
+        return obj
     except Exception as e:
         print(f"Exception {e}")
     return None
