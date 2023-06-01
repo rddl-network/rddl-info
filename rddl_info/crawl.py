@@ -128,7 +128,7 @@ def synchronize_storage(
     if influxdb:
         storage = InfluxStorage(token=INFLUXDB_TOKEN, org=INFLUXDB_ORG, bucket=INFLUXDB_BUCKET, url=INFLUXDB_HOST_URL)
     else:
-        filename = "extracted_data-" + range_from + ".csv"
+        filename = "extracted_data-" + str(range_from) + ".csv"
         storage = CSVStorage(filename)
 
     for blk_nr in range(range_from, range_to):
