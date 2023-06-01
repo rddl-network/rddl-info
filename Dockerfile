@@ -14,7 +14,7 @@ RUN echo "cron.*      /var/log/cron.log" >> /etc/syslog.conf
 
 
 
-RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/data
 COPY ./rddl_info /usr/src/app/rddl_info
 COPY poetry.lock /usr/src/app
 COPY pyproject.toml /usr/src/app
