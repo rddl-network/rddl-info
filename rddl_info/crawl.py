@@ -64,10 +64,14 @@ def download_obj(url: str):
 
 def write_storage_entry(tx: dict, obj: dict, storage):
     try:
+        o = str()
         for rddl_node in rddl_node_list:
             if rddl_node["pub"] == tx["inputs"][0]["owners_before"][0]:
                 o = urlparse(rddl_node["uri"])
                 break
+        if not o:
+            # we did not find a mapping, so do not store the data
+            return
         data = [
             o.netloc,
             obj["StatusSNS"]["ENERGY"]["ApparentPower"],
