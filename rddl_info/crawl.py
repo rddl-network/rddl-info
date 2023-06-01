@@ -1,6 +1,7 @@
 import typer
 import urllib3
 import json
+from urllib.parse import urlparse
 
 from ipld import unmarshal
 from planetmint_driver import Planetmint
@@ -39,8 +40,9 @@ def get_next_node_id() -> int:
 
 
 def get_node_uri(node_id: int = current_node_id) -> str:
-    print(f"SWITCHING to node: {rddl_node_list[current_node_id]}")
-    return rddl_node_list[current_node_id]
+    uri = rddl_node_list[current_node_id]["uri"]
+    print(f"SWITCHING to node: {uri}")
+    return uri
 
 
 def download_obj(url: str):
@@ -62,8 +64,12 @@ def download_obj(url: str):
 
 def write_storage_entry(tx: dict, obj: dict, storage):
     try:
+        for rddl_node in rddl_node_list:
+            if rddl_node["pub"] == tx["inputs"][0]["owners_before"][0]:
+                o = urlparse(rddl_node["uri"])
+                break
         data = [
-            tx["inputs"][0]["owners_before"][0],
+            o.netloc,
             obj["StatusSNS"]["ENERGY"]["ApparentPower"],
             obj["StatusSNS"]["ENERGY"]["Current"],
             obj["StatusSNS"]["ENERGY"]["Factor"],
