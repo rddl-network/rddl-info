@@ -1,6 +1,7 @@
 import typer
 import urllib3
 import json
+from urllib.parse import urlparse
 
 from ipld import unmarshal
 from planetmint_driver import Planetmint
@@ -39,8 +40,9 @@ def get_next_node_id() -> int:
 
 
 def get_node_uri(node_id: int = current_node_id) -> str:
-    print(f"SWITCHING to node: {rddl_node_list[current_node_id]}")
-    return rddl_node_list[current_node_id]
+    uri = rddl_node_list[current_node_id]["uri"]
+    print(f"SWITCHING to node: {uri}")
+    return uri
 
 
 def download_obj(url: str):
@@ -62,8 +64,16 @@ def download_obj(url: str):
 
 def write_storage_entry(tx: dict, obj: dict, storage):
     try:
+        o = str()
+        for rddl_node in rddl_node_list:
+            if rddl_node["pub"] == tx["inputs"][0]["owners_before"][0]:
+                o = urlparse(rddl_node["uri"])
+                break
+        if not o:
+            # we did not find a mapping, so do not store the data
+            return
         data = [
-            tx["inputs"][0]["owners_before"][0],
+            o.netloc,
             obj["StatusSNS"]["ENERGY"]["ApparentPower"],
             obj["StatusSNS"]["ENERGY"]["Current"],
             obj["StatusSNS"]["ENERGY"]["Factor"],
@@ -128,7 +138,7 @@ def synchronize_storage(
     if influxdb:
         storage = InfluxStorage(token=INFLUXDB_TOKEN, org=INFLUXDB_ORG, bucket=INFLUXDB_BUCKET, url=INFLUXDB_HOST_URL)
     else:
-        filename = "extracted_data-" + range_from + ".csv"
+        filename = "extracted_data-" + str(range_from) + ".csv"
         storage = CSVStorage(filename)
 
     for blk_nr in range(range_from, range_to):

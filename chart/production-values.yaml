@@ -21,7 +21,7 @@ influxdb:
       username: rddl
       password: '#Set in ArgoCD'
       org: rddl_network
-      bucket: validator_notarization
+      bucket: validator_notarization_uri
     readUser:
       username: read
       password: '#Set in ArgoCD'
