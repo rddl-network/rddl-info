@@ -1,6 +1,7 @@
 import typer
 import urllib3
 import json
+import re
 from urllib.parse import urlparse
 
 from ipld import unmarshal
@@ -72,8 +73,13 @@ def write_storage_entry(tx: dict, obj: dict, storage):
         if not o:
             # we did not find a mapping, so do not store the data
             return
+        # extract node name, e.g. node15
+        n = o.netloc
+        r = re.search(r"node\d+", n)
+        if r != None:
+            n = r[0]
         data = [
-            o.netloc,
+            n,
             obj["StatusSNS"]["ENERGY"]["ApparentPower"],
             obj["StatusSNS"]["ENERGY"]["Current"],
             obj["StatusSNS"]["ENERGY"]["Factor"],
