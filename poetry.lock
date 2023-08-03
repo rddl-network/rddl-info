@@ -99,13 +99,13 @@ files = [
 
 [[package]]
 name = "certifi"
-version = "2022.12.7"
+version = "2023.7.22"
 description = "Python package for providing Mozilla's CA Bundle."
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "certifi-2022.12.7-py3-none-any.whl", hash = "sha256:4ad3232f5e926d6718ec31cfc1fcadfde020920e278684144551c91769c7bc18"},
-    {file = "certifi-2022.12.7.tar.gz", hash = "sha256:35824b4c3a97115964b408844d64aa14db1cc518f6562e8d7261699d1350a9e3"},
+    {file = "certifi-2023.7.22-py3-none-any.whl", hash = "sha256:92d6037539857d8206b8f6ae472e8b77db8058fec5937a1ef3f54304089edbb9"},
+    {file = "certifi-2023.7.22.tar.gz", hash = "sha256:539cc1d13202e33ca466e88b2807e29f4c13049d6d87031a3c110744495cb082"},
 ]
 
 [[package]]
@@ -976,13 +976,13 @@ email = ["email-validator (>=1.0.3)"]
 
 [[package]]
 name = "pygments"
-version = "2.14.0"
+version = "2.15.0"
 description = "Pygments is a syntax highlighting package written in Python."
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 files = [
-    {file = "Pygments-2.14.0-py3-none-any.whl", hash = "sha256:fa7bd7bd2771287c0de303af8bfdfc731f51bd2c6a47ab69d117138893b82717"},
-    {file = "Pygments-2.14.0.tar.gz", hash = "sha256:b3ed06a9e8ac9a9aae5a6f5dbe78a8a58655d17b43b93c078f094ddc476ae297"},
+    {file = "Pygments-2.15.0-py3-none-any.whl", hash = "sha256:77a3299119af881904cd5ecd1ac6a66214b6e9bed1f2db16993b54adede64094"},
+    {file = "Pygments-2.15.0.tar.gz", hash = "sha256:f7e36cffc4c517fbc252861b9a6e4644ca0e5abadf9a113c72d1358ad09b9500"},
 ]
 
 [package.extras]
@@ -1519,6 +1519,36 @@ files = [
 ]
 
 [[package]]
+name = "zenroom"
+version = "2.16.3"
+description = "Zenroom for Python: Bindings of Zenroom library for Python."
+optional = false
+python-versions = ">=3.8, <4"
+files = [
+    {file = "zenroom-2.16.3-cp310-cp310-linux_armv7l.whl", hash = "sha256:a8f1b7c7d7dc815fa2705bda3c02c188c2a07b9858892c1ee70571337c915dcd"},
+    {file = "zenroom-2.16.3-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:95ec3b9635492234b79cefa1283b7d6f44b42f15b90a5bd43753ab5970ed47b1"},
+    {file = "zenroom-2.16.3-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.manylinux_2_24_aarch64.whl", hash = "sha256:711e5b6e414c894de7209e7203ea217dc58bdf30e530ad49fdd777fea0bb3bbd"},
+    {file = "zenroom-2.16.3-cp310-cp310-manylinux_2_17_i686.manylinux2014_i686.manylinux_2_24_i686.whl", hash = "sha256:24af38c51ef9accaf5d1bbfd007de13fb5f79485cdd1cf553c23b93125c820eb"},
+    {file = "zenroom-2.16.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:f25701a47acc49191800e435a6b94f50771282dba5b37cc75225a5cf12da10f4"},
+    {file = "zenroom-2.16.3-cp311-cp311-linux_armv7l.whl", hash = "sha256:df79a5dd04b366b691439d311dc4b12e8fc0d51a9133e184fb52e59cd0400110"},
+    {file = "zenroom-2.16.3-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:4699837152a5f7cd3edc038e3bbbb99f341d9a084284866028c181e24112b891"},
+    {file = "zenroom-2.16.3-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.manylinux_2_24_aarch64.whl", hash = "sha256:a4ed42594b83f5b0d1d127d2d42fd150b0f94075d0c367b34fda924dd5dd9b8d"},
+    {file = "zenroom-2.16.3-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.manylinux_2_24_i686.whl", hash = "sha256:9fb438a21653347282c860ebe7ad3f7f1861899f3d68f38b2925873edebce0eb"},
+    {file = "zenroom-2.16.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:1bbc0d37244fa287edf74066de83d3eac2ad4ac87aa4937e73991e1d9bd3adea"},
+    {file = "zenroom-2.16.3-cp38-cp38-linux_armv7l.whl", hash = "sha256:b52c6636bcfa6d98b8559ca1d2786cce282e84d96cd869efabcbed5bfc172def"},
+    {file = "zenroom-2.16.3-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:88c3f345455e35b0a8dfe8d2c403888c2e7d7902e651867c3a437679df88564d"},
+    {file = "zenroom-2.16.3-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.manylinux_2_24_aarch64.whl", hash = "sha256:9138eb8cbbef3fdc677e4e7030f0ac947b56c6710bd9f1cd6c9735130ba3e52d"},
+    {file = "zenroom-2.16.3-cp38-cp38-manylinux_2_17_i686.manylinux2014_i686.manylinux_2_24_i686.whl", hash = "sha256:c3ad91f5715a130917e55d443224e2a2f330905f481b77b59d14dd795e4de05c"},
+    {file = "zenroom-2.16.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:e70fd75ae1661d2da94c5b522899ac387d07f37823d6f6cc3d2bf0c3d6e8bb03"},
+    {file = "zenroom-2.16.3-cp39-cp39-linux_armv7l.whl", hash = "sha256:1f2d928a7fcedf8667c891a9d27a04d8569d2c8a925d81680f76da5d90990be0"},
+    {file = "zenroom-2.16.3-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:e371a7ffb6eed4e2ed73042cbcd4e89c155079171295e84945a719bcc41ea2cf"},
+    {file = "zenroom-2.16.3-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.manylinux_2_24_aarch64.whl", hash = "sha256:8d36f5e496eeccb9e4f2774bc47cd18d562c0ed0010ec06fbdbc2f559a43a085"},
+    {file = "zenroom-2.16.3-cp39-cp39-manylinux_2_17_i686.manylinux2014_i686.manylinux_2_24_i686.whl", hash = "sha256:f6210844ae3d62834519667edd80ce6872d34f623a513203a88483e7f4bd9b7b"},
+    {file = "zenroom-2.16.3-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:6a28d6f5ffc50e19f5b26b599ac5fbb07112e118c6d8b81cd02d5f829b1893a1"},
+]
+
+[package.extras]
+test = ["pytest", "schema"]
 name = "zope.event"
 version = "4.6"
 description = "Very basic event publishing system"
