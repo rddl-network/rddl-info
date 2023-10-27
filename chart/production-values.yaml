@@ -147,7 +147,7 @@ prometheus:
               labels:
                 severity: page
               annotations:
-                description: '{{ $labels.instance }} has less than five validator peer connections.'
+                description: '{{ $labels.instance }} has less than two validator peer connections.'
                 summary: '{{ $labels.instance }} has less connections'
     prometheus.yml:
       scrape_configs:
