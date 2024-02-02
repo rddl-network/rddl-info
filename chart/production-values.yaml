@@ -122,7 +122,7 @@ prometheus:
         - name: Transactions
           rules:
             - alert: Unconfirmed Transactions
-              expr: tendermint_mempool_size >= 10
+              expr: cometbft_mempool_size >= 10
               for: 5m
               labels:
                 severity: page
@@ -142,7 +142,7 @@ prometheus:
         - name: Node Connections
           rules:
             - alert: Node Connections
-              expr: tendermint_p2p_peers < 2
+              expr: cometbft_p2p_peers < 2
               for: 1m
               labels:
                 severity: page
@@ -156,13 +156,19 @@ prometheus:
           metrics_path: /rddl-network
           static_configs:
             - targets:
-              - node1-rddl-testnet.twilightparadox.com:26660
-              - node2-rddl-testnet.twilightparadox.com:26660
-              - node3-rddl-testnet.twilightparadox.com:26660
-              - node4-rddl-testnet.twilightparadox.com:26660
-              - node5-rddl-testnet.chickenkiller.com:26660
+              - planetmint-go-testnet-1.rddl.io:26660
+              - planetmint-go-testnet-2.rddl.io:26660
+              - planetmint-go-testnet-3.rddl.io:26660
+              - testnet-explorer.rddl.io:26660
               labels:
-                group: 'rddl'
+                group: 'testnet'
+            - targets:
+              - planetmint-go-mainnet-1.rddl.io:26660
+              - planetmint-go-mainnet-2.rddl.io:26660
+              - planetmint-go-mainnet-3.rddl.io:26660
+              - explorer.rddl.io:26660
+              labels:
+                group: 'mainnet'
   kube-state-metrics:
     enabled: false
   prometheus-node-exporter:
