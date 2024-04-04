@@ -153,9 +153,12 @@ prometheus:
       scrape_configs:
         - job_name: 'rddl-network'
           scrape_interval: 5s
-          metrics_path: /rddl-network
+          metrics_path: /metrics
           static_configs:
             - targets:
+              - planetmint-go-testnet-1.rddl.io:8086
+              - planetmint-go-testnet-2.rddl.io:8086
+              - planetmint-go-testnet-3.rddl.io:8086
               - planetmint-go-testnet-1.rddl.io:26660
               - planetmint-go-testnet-2.rddl.io:26660
               - planetmint-go-testnet-3.rddl.io:26660
@@ -163,6 +166,7 @@ prometheus:
               labels:
                 group: 'testnet'
             - targets:
+              # TODO: add rddl-prometheus-exporter targets (see: https://github.com/rddl-network/rddl-info/issues/42)
               - planetmint-go-mainnet-1.rddl.io:26660
               - planetmint-go-mainnet-2.rddl.io:26660
               - planetmint-go-mainnet-3.rddl.io:26660
