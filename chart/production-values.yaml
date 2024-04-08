@@ -149,6 +149,36 @@ prometheus:
               annotations:
                 description: '{{ $labels.instance }} has less than two validator peer connections.'
                 summary: '{{ $labels.instance }} has less connections'
+        - name: Wallet Funds DAO
+          rules:
+            - alert: Wallet Funds DAO
+              expr: elementsd_wallets_balance_dao <= 0.0002
+              for: 1m
+              labels:
+                severity: critical
+              annotations:
+                description: 'DAO wallet has less then 0.0002 LBTC (i.e.: not enough funds)'
+                summary: 'DAO wallet has not enough funds'
+        - name: Wallet Funds PoP
+          rules:
+            - alert: Wallet Funds PoP
+              expr: elementsd_wallets_balance_pop <= 0.0002
+              for: 1m
+              labels:
+                severity: critical
+              annotations:
+                description: 'PoP wallet has less then 0.0002 LBTC (i.e.: not enough funds)'
+                summary: 'PoP wallet has not enough funds'
+        - name: Wallet Funds TokenIssuer
+          rules:
+            - alert: Wallet Funds TokenIssuer
+              expr: elementsd_wallets_balance_tokenissuer <= 0.0002
+              for: 1m
+              labels:
+                severity: critical
+              annotations:
+                description: 'TokenIssuer wallet has less then 0.0002 LBTC (i.e.: not enough funds)'
+                summary: 'TokenIssuer wallet has not enough funds'
     prometheus.yml:
       scrape_configs:
         - job_name: 'rddl-network'
