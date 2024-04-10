@@ -249,6 +249,16 @@ prometheus:
               annotations:
                 description: '{{ $labels.instance }}: Shamir Shareholder PoP service is down for more than 3 minutes.'
                 summary: '{{ $labels.instance }} Shamir Shareholder PoP service is down'
+        - name: TA service
+          rules:
+          - alert: TA service down
+              expr: systemd_units_service_active_state_planetmint_ta == 0
+              for: 3m
+              labels:
+                severity: page
+              annotations:
+                description: '{{ $labels.instance }}: TA service is down for more than 3 minutes.'
+                summary: '{{ $labels.instance }} TA service is down'
     prometheus.yml:
       scrape_configs:
         - job_name: 'rddl-network'
