@@ -196,7 +196,9 @@ prometheus:
               labels:
                 group: 'testnet'
             - targets:
-              # TODO: add rddl-prometheus-exporter targets (see: https://github.com/rddl-network/rddl-info/issues/42)
+              - planetmint-go-mainnet-1.rddl.io:8086
+              - planetmint-go-mainnet-2.rddl.io:8086
+              - planetmint-go-mainnet-3.rddl.io:8086
               - planetmint-go-mainnet-1.rddl.io:26660
               - planetmint-go-mainnet-2.rddl.io:26660
               - planetmint-go-mainnet-3.rddl.io:26660
