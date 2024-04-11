@@ -179,6 +179,86 @@ prometheus:
               annotations:
                 description: 'TokenIssuer wallet has less then 0.0002 LBTC (i.e.: not enough funds)'
                 summary: 'TokenIssuer wallet has not enough funds'
+        - name: Service health DAO distribution service
+          rules:
+            - alert: DAO distribution service down
+              expr: systemd_units_service_active_state_planetmint_dao_distribution == 0
+              for: 3m
+              labels:
+                severity: page
+              annotations:
+                description: '{{ $labels.instance }}: DAO distribution service is down for more than 3 minutes.'
+                summary: '{{ $labels.instance }} DAO distribution service is down'
+        - name: Service health RDDL 2 PLMNT service
+          rules:
+            - alert: RDDL 2 PLMNT service down
+              expr: systemd_units_service_active_state_planetmint_rddl_2_plmnt == 0
+              for: 3m
+              labels:
+                severity: page
+              annotations:
+                description: '{{ $labels.instance }}: RDDL 2 PLMNT service is down for more than 3 minutes.'
+                summary: '{{ $labels.instance }} RDDL 2 PLMNT service is down'
+        - name: Service health RDDL claim service
+          rules:
+          - alert: RDDL claim service down
+              expr: systemd_units_service_active_state_planetmint_claim == 0
+              for: 3m
+              labels:
+                severity: page
+              annotations:
+                description: '{{ $labels.instance }}: RDDL claim service is down for more than 3 minutes.'
+                summary: '{{ $labels.instance }} RDDL claim service is down'
+        - name: Service health Shamir Coordinator DAO service
+          rules:
+          - alert: Shamir Coordinator DAO service down
+              expr: systemd_units_service_active_state_planetmint_shamir_coordinator_dao == 0
+              for: 3m
+              labels:
+                severity: page
+              annotations:
+                description: '{{ $labels.instance }}: Shamir Coordinator DAO service is down for more than 3 minutes.'
+                summary: '{{ $labels.instance }} Shamir Coordinator DAO service is down'
+        - name: Service health Shamir Shareholder DAO service
+          rules:
+          - alert: Shamir Shareholder PoP service down
+              expr: systemd_units_service_active_state_planetmint_shamir_shareholder_dao == 0
+              for: 3m
+              labels:
+                severity: page
+              annotations:
+                description: '{{ $labels.instance }}: Shamir Shareholder DAO service is down for more than 3 minutes.'
+                summary: '{{ $labels.instance }} Shamir Shareholder DAO service is down'
+        - name: Service health Shamir Coordinator PoP service
+          rules:
+          - alert: Shamir Coordinator PoP service down
+              expr: systemd_units_service_active_state_planetmint_shamir_coordinator_pop == 0
+              for: 3m
+              labels:
+                severity: page
+              annotations:
+                description: '{{ $labels.instance }}: Shamir Coordinator PoP service is down for more than 3 minutes.'
+                summary: '{{ $labels.instance }} Shamir Coordinator PoP service is down'
+        - name: Service health Shamir Shareholder PoP service
+          rules:
+          - alert: Shamir Shareholder PoP service down
+              expr: systemd_units_service_active_state_planetmint_shamir_shareholder_pop == 0
+              for: 3m
+              labels:
+                severity: page
+              annotations:
+                description: '{{ $labels.instance }}: Shamir Shareholder PoP service is down for more than 3 minutes.'
+                summary: '{{ $labels.instance }} Shamir Shareholder PoP service is down'
+        - name: TA service
+          rules:
+          - alert: TA service down
+              expr: systemd_units_service_active_state_planetmint_ta == 0
+              for: 3m
+              labels:
+                severity: page
+              annotations:
+                description: '{{ $labels.instance }}: TA service is down for more than 3 minutes.'
+                summary: '{{ $labels.instance }} TA service is down'
     prometheus.yml:
       scrape_configs:
         - job_name: 'rddl-network'
