@@ -201,7 +201,7 @@ prometheus:
                 summary: '{{ $labels.instance }} RDDL 2 PLMNT service is down'
         - name: Service health RDDL claim service
           rules:
-          - alert: RDDL claim service down
+            - alert: RDDL claim service down
               expr: systemd_units_service_active_state_planetmint_claim == 0
               for: 3m
               labels:
@@ -211,7 +211,7 @@ prometheus:
                 summary: '{{ $labels.instance }} RDDL claim service is down'
         - name: Service health Shamir Coordinator DAO service
           rules:
-          - alert: Shamir Coordinator DAO service down
+            - alert: Shamir Coordinator DAO service down
               expr: systemd_units_service_active_state_planetmint_shamir_coordinator_dao == 0
               for: 3m
               labels:
@@ -221,7 +221,7 @@ prometheus:
                 summary: '{{ $labels.instance }} Shamir Coordinator DAO service is down'
         - name: Service health Shamir Shareholder DAO service
           rules:
-          - alert: Shamir Shareholder PoP service down
+            - alert: Shamir Shareholder PoP service down
               expr: systemd_units_service_active_state_planetmint_shamir_shareholder_dao == 0
               for: 3m
               labels:
@@ -231,7 +231,7 @@ prometheus:
                 summary: '{{ $labels.instance }} Shamir Shareholder DAO service is down'
         - name: Service health Shamir Coordinator PoP service
           rules:
-          - alert: Shamir Coordinator PoP service down
+            - alert: Shamir Coordinator PoP service down
               expr: systemd_units_service_active_state_planetmint_shamir_coordinator_pop == 0
               for: 3m
               labels:
@@ -241,7 +241,7 @@ prometheus:
                 summary: '{{ $labels.instance }} Shamir Coordinator PoP service is down'
         - name: Service health Shamir Shareholder PoP service
           rules:
-          - alert: Shamir Shareholder PoP service down
+            - alert: Shamir Shareholder PoP service down
               expr: systemd_units_service_active_state_planetmint_shamir_shareholder_pop == 0
               for: 3m
               labels:
@@ -251,7 +251,7 @@ prometheus:
                 summary: '{{ $labels.instance }} Shamir Shareholder PoP service is down'
         - name: TA service
           rules:
-          - alert: TA service down
+            - alert: TA service down
               expr: systemd_units_service_active_state_planetmint_ta == 0
               for: 3m
               labels:
@@ -266,23 +266,23 @@ prometheus:
           metrics_path: /metrics
           static_configs:
             - targets:
-              - planetmint-go-testnet-1.rddl.io:8086
-              - planetmint-go-testnet-2.rddl.io:8086
-              - planetmint-go-testnet-3.rddl.io:8086
-              - planetmint-go-testnet-1.rddl.io:26660
-              - planetmint-go-testnet-2.rddl.io:26660
-              - planetmint-go-testnet-3.rddl.io:26660
-              - testnet-explorer.rddl.io:26660
+                - planetmint-go-testnet-1.rddl.io:8086
+                - planetmint-go-testnet-2.rddl.io:8086
+                - planetmint-go-testnet-3.rddl.io:8086
+                - planetmint-go-testnet-1.rddl.io:26660
+                - planetmint-go-testnet-2.rddl.io:26660
+                - planetmint-go-testnet-3.rddl.io:26660
+                - testnet-explorer.rddl.io:26660
               labels:
                 group: 'testnet'
             - targets:
-              - planetmint-go-mainnet-1.rddl.io:8086
-              - planetmint-go-mainnet-2.rddl.io:8086
-              - planetmint-go-mainnet-3.rddl.io:8086
-              - planetmint-go-mainnet-1.rddl.io:26660
-              - planetmint-go-mainnet-2.rddl.io:26660
-              - planetmint-go-mainnet-3.rddl.io:26660
-              - explorer.rddl.io:26660
+                - planetmint-go-mainnet-1.rddl.io:8086
+                - planetmint-go-mainnet-2.rddl.io:8086
+                - planetmint-go-mainnet-3.rddl.io:8086
+                - planetmint-go-mainnet-1.rddl.io:26660
+                - planetmint-go-mainnet-2.rddl.io:26660
+                - planetmint-go-mainnet-3.rddl.io:26660
+                - explorer.rddl.io:26660
               labels:
                 group: 'mainnet'
   kube-state-metrics:
