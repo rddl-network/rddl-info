@@ -119,6 +119,26 @@ prometheus:
   serverFiles:
     alerting_rules.yml:
       groups:
+        - name: CPU Usage
+          rules:
+            - alert: CPU Usage
+              expr: ((1 - avg(irate(node_cpu_seconds_total{mode="idle"}[10m])) by (instance)) * 100) > 80
+              for: 3m
+              labels:
+                severity: critical
+              annotations:
+                description: '{{ $labels.instance }} uses more than 80 % of its cpu.'
+                summary: '{{ $labels.instance }} has high cpu usage.'
+        - name: Memory Usage
+          rules:
+            - alert: Memory Usage
+              expr: (100 * (1 - ((avg_over_time(node_memory_MemFree_bytes[10m]) + avg_over_time(node_memory_Cached_bytes[10m]) + avg_over_time(node_memory_Buffers_bytes[10m])) / avg_over_time(node_memory_MemTotal_bytes[10m])))) > 80
+              for: 3m
+              labels:
+                severity: critical
+              annotations:
+                description: '{{ $labels.instance }} uses more than 80 % of its memory.'
+                summary: '{{ $labels.instance }} has high memory usage.'
         - name: Transactions
           rules:
             - alert: Unconfirmed Transactions
