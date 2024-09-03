@@ -272,7 +272,7 @@ prometheus:
                 - planetmint-go-testnet-1.rddl.io:26660
                 - planetmint-go-testnet-2.rddl.io:26660
                 - planetmint-go-testnet-3.rddl.io:26660
-                - testnet-explorer.rddl.io:26660
+                - planetmint-go-testnet-4.rddl.io:26660
               labels:
                 group: 'testnet'
             - targets:
@@ -282,7 +282,7 @@ prometheus:
                 - planetmint-go-mainnet-1.rddl.io:26660
                 - planetmint-go-mainnet-2.rddl.io:26660
                 - planetmint-go-mainnet-3.rddl.io:26660
-                - explorer.rddl.io:26660
+                - planetmint-go-mainnet-4.rddl.io:26660
               labels:
                 group: 'mainnet'
   kube-state-metrics:
