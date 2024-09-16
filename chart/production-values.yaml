@@ -293,6 +293,7 @@ prometheus:
                 - planetmint-go-testnet-1.rddl.io:9100
                 - planetmint-go-testnet-2.rddl.io:9100
                 - planetmint-go-testnet-3.rddl.io:9100
+                - planetmint-go-testnet-elements.rddl.io:9100
                 - planetmint-go-testnet-4.rddl.io:9100
                 - planetmint-go-testnet-1.rddl.io:26660
                 - planetmint-go-testnet-2.rddl.io:26660
@@ -308,6 +309,7 @@ prometheus:
                 - planetmint-go-mainnet-1.rddl.io:9100
                 - planetmint-go-mainnet-2.rddl.io:9100
                 - planetmint-go-mainnet-3.rddl.io:9100
+                - planetmint-go-mainnet-elements.rddl.io:9100
                 - planetmint-go-mainnet-4.rddl.io:9100
                 - planetmint-go-mainnet-1.rddl.io:26660
                 - planetmint-go-mainnet-2.rddl.io:26660
