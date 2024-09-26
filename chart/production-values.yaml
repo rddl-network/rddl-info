@@ -84,12 +84,12 @@ prometheus:
       receivers:
         - name: mail-receiver
           email_configs:
-            - to: it@riddleandcode.com
+            - to: alert@rddl.io
               send_resolved: true
-              from: bot@riddleandcode.com
+              from: no-reply@rddl.io
               smarthost: smtp.gmail.com:587
-              auth_username: bot@riddleandcode.com
-              auth_identity: bot@riddleandcode.com
+              auth_username: no-reply@rddl.io
+              auth_identity: no-reply@rddl.io
               auth_password: '#Set in ArgoCD'
       route:
         group_wait: 10s
